@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body style="background-color: #D8C4B6">
+    <h3 style="margin-left: 25px;
+                margin-top: 10px;
+                font-family: 'Courier New', monospace;">Текущие задачи</h3>
+    <a style="font-family: 'Courier New', monospace;
+                margin-left: 1050px;
+                margin-top: -40px;
+                font-size: 20px;
+                display: block;
+                color: #213555" href="{% url 'create' %}">
+        Создать задачу ->
+    </a>
+    {% for objectives in objective %}
+    {% if objectives.status is False %}
+    <div class="card" style="width: 400px;
+                             margin: 20px;
+                             display: inline-block;
+                             border: 1px solid #4F709C">
+      <div class="card-body">
+        <h5 class="card-title">{{ objectives.name }}</h5>
+        <p class="card-text">{{ objectives.description }}</p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">{{ objectives.date }}</li>
+        <li class="list-group-item">Уровень приоритета: {{ objectives.level }}</li>
+        <li class="list-group-item">Статус: {{ objectives.status }}</li>
+      </ul>
+      <div class="card-body" >
+        <a href="done/{{ objectives.get_absolute_url }}" class="card-link">Выполненно!</a>
+        <a href="{{ objectives.get_absolute_url }}" class="card-link">Редактировать</a>
+        <a href="delete/{{ objectives.get_absolute_url }}" class="card-link">Удалить</a>
+      </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+    <h3 style="margin-left: 25px;
+               margin-top: 80px;
+               font-family: 'Courier New', monospace;">Выполненные задачи</h3>
+    {% for objectives in objective_done %}
+    {% if objectives.status is True %}
+    <div class="card" style="width: 400px;
+                             margin: 20px;
+                             display: inline-block;
+                             border: 1px solid #4F709C">
+      <div class="card-body">
+        <h5 class="card-title">{{ objectives.name }}</h5>
+        <p class="card-text">{{ objectives.description }}</p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">{{ objectives.date }}</li>
+        <li class="list-group-item">Уровень приоритета: {{ objectives.level }}</li>
+        <li class="list-group-item">Статус: {{ objectives.status }}</li>
+      </ul>
+      <div class="card-body">
+        <a href="{{ objectives.get_absolute_url }}" class="card-link">Редактировать</a>
+        <a href="delete/{{ objectives.get_absolute_url }}" class="card-link">Удалить</a>
+      </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+</body>
+</html>
